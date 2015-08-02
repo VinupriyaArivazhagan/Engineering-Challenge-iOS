@@ -84,7 +84,7 @@
 		3A6C65581B6AADD700C5F144 /* totalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = totalViewController.swift; sourceTree = "<group>"; };
 		3ABD17D91B6BE7CA0052DE2F /* nutrients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = nutrients.swift; sourceTree = "<group>"; };
 		3ABD17DB1B6BE7E60052DE2F /* contents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contents.swift; sourceTree = "<group>"; };
-		3ABD17DD1B6BE7FF0052DE2F /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		3ABD17DD1B6BE7FF0052DE2F /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = ../Realm.framework; sourceTree = "<group>"; };
 		3ABD17DF1B6BE8120052DE2F /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		3ABD17E11B6BEFF30052DE2F /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		3ABD17EC1B6BF0A50052DE2F /* chartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chartCell.swift; sourceTree = "<group>"; };
@@ -115,8 +115,6 @@
 		3A2CBF521B693D660026B504 = {
 			isa = PBXGroup;
 			children = (
-				3ABD17DF1B6BE8120052DE2F /* libc++.dylib */,
-				3ABD17DD1B6BE7FF0052DE2F /* Realm.framework */,
 				3A2CBF5D1B693D660026B504 /* Holmusk */,
 				3ABD17E11B6BEFF30052DE2F /* Charts.xcodeproj */,
 				3A2CBF731B693D660026B504 /* HolmuskTests */,
@@ -144,6 +142,7 @@
 				3A2CBF671B693D660026B504 /* Images.xcassets */,
 				3A2CBF691B693D660026B504 /* LaunchScreen.xib */,
 				3A2CBF5E1B693D660026B504 /* Supporting Files */,
+				3AD244321B6DDBDA00891D4D /* Frameworks */,
 			);
 			path = Holmusk;
 			sourceTree = "<group>";
@@ -210,6 +209,15 @@
 				3ABD17E61B6BEFF40052DE2F /* Charts.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3AD244321B6DDBDA00891D4D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3ABD17DD1B6BE7FF0052DE2F /* Realm.framework */,
+				3ABD17DF1B6BE8120052DE2F /* libc++.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

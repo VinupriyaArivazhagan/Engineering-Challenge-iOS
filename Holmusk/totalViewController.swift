@@ -19,6 +19,9 @@ class totalViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "Total Intake"
+        
+        // To retrieve data from realm data storage
+        
         objNutrients.removeAllObjects()
         objNutrients.addObjects(nutrients.allObjects())
         

@@ -12,6 +12,8 @@ import UIKit
 class resultView: UIView {
 
     @IBOutlet weak var lblResult: UILabel!
+    
+    // MARK: IBInspectable
     @IBInspectable var color: UIColor = UIColor.whiteColor()
 
     /*

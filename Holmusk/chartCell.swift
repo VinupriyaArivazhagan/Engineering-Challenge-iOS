@@ -13,7 +13,8 @@ import Realm
 class chartCell: UITableViewCell {
     
     @IBOutlet weak var lblName: UILabel!
-    @IBOutlet weak var barChart: BarChartView!
+    
+    @IBOutlet weak var barChart: BarChartView! // view to show data
     
     var objContent = RLMArray(objectClassName: contents.className())
     var objNutrients : nutrients!
@@ -24,7 +25,7 @@ class chartCell: UITableViewCell {
         
     }
     
-    func initialize()
+    func initialize() // initializing cell
     {
         barChart.noDataText = "No any available nutrients"
         barChart.noDataTextDescription = "No any available nutrients"
@@ -39,15 +40,19 @@ class chartCell: UITableViewCell {
         
         for i in 0...objContent.count-1 {
             let con = objContent.objectAtIndex(i) as! contents
-            names.append(con.name)
-            values.append(con.value)
+            if con.name != "calories"
+            {
+             names.append(con.name)
+             values.append(con.value)
+            }
         }
         setChart(names, values: values)
         
         lblName.text = objNutrients.name
     }
     
-    func setChart(dataPoints: [String], values: [Double]) {
+    func setChart(dataPoints: [String], values: [Double]) // to show data from realm data storage in bar chart
+    {
         barChart.noDataText = "No any available nutrients"
         var dataEntries: [BarChartDataEntry] = []
         

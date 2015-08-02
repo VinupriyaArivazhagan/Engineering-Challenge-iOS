@@ -20,8 +20,6 @@ class portionsViewController: UIViewController {
         self.title = "Portions"
         lblFoodName.text = dictValue.valueForKey("name") as? String
         arrValue = dictValue.valueForKey("portions") as! NSMutableArray
-        println("\(dictValue)")
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -48,7 +46,7 @@ class portionsViewController: UIViewController {
         }
         else
         {
-            return 70
+            return 50
         }
     }
     
@@ -62,13 +60,13 @@ class portionsViewController: UIViewController {
         }
         else
         {
-          var viewHeader = UIView(frame: CGRectMake(0, 0, view.frame.size.width, 70))
+          var viewHeader = UIView(frame: CGRectMake(0, 0, view.frame.size.width, 50))
           viewHeader.backgroundColor = UIColor.clearColor()
           var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
             
           visualEffectView.frame = viewHeader.bounds
           viewHeader.addSubview(visualEffectView)
-          let lblInfo = UILabel(frame: CGRectMake(10, 10, view.frame.size.width-10, 50))
+          let lblInfo = UILabel(frame: CGRectMake(10, 0, view.frame.size.width-10, 50))
           lblInfo.text = "Nutrients of your searched food in portions"
           viewHeader.addSubview(lblInfo)
           return viewHeader
@@ -102,12 +100,6 @@ class portionsViewController: UIViewController {
         return cell
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        var yOffset = ((tblView!.contentOffset.y ) / 100) * 15.0
-        viewScroll.contentOffset = CGPointMake(0.0, yOffset)
-    }
-
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let nutrientsCon : nutrientsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("nutrientsViewController") as! nutrientsViewController
@@ -117,6 +109,16 @@ class portionsViewController: UIViewController {
         self.navigationController?.pushViewController(nutrientsCon, animated: true)
     }
     
+    // MARK: - scroll View Delegate
+    
+    func scrollViewDidScroll(scrollView: UIScrollView)
+    {
+        // for parallax effect
+        var yOffset = ((tblView!.contentOffset.y ) / 100) * 15.0
+        viewScroll.contentOffset = CGPointMake(0.0, yOffset)
+    }
+    
+
     /*
     // MARK: - Navigation
 

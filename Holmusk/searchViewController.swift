@@ -16,20 +16,28 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tblBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var btnTotalIntake: UIButton!
+    @IBOutlet weak var tblSearchView: UITableView!
     
+    var arrFoodData : NSMutableArray = []
+    var arrFoodSearch : NSMutableArray = []
     var objNutrients = RLMArray(objectClassName: nutrients.className())
     var arrValue = []
     var intialCondition : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //activityIndicator.hidden = true
+        self.title = "Search"
+        activityIndicator.startAnimating()
+        searchBar.userInteractionEnabled = false
+        
         var color = UIColor(red: 27.0/255.0, green: 64.0/255.0, blue: 121.0/255.0, alpha: 1)
         searchBar.delegate = self
         searchBar.barTintColor = color
         searchBar.backgroundColor = color
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = color.CGColor
+        
+        getFoodDataFromKiminoLabs() // get Data from kiminolabs
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -66,6 +74,36 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
     {
+     if searchBar.text != nil
+     {
+        let predicate : NSPredicate = NSPredicate(format: "SELF contains[c] %@", searchBar.text)
+        let arrSearch : NSArray = arrFoodData.filteredArrayUsingPredicate(predicate)
+        
+        arrFoodSearch.removeAllObjects()
+        if arrSearch.count > 10
+        {
+          arrFoodSearch.addObjectsFromArray(arrSearch.subarrayWithRange(NSMakeRange(0, 10)))
+        }
+        else
+        {
+            arrFoodSearch.addObjectsFromArray(arrSearch as [AnyObject])
+        }
+        tblSearchView.reloadData()
+        if arrFoodSearch.count == 0
+        {
+            tblSearchView.hidden = true
+        }
+        else
+        {
+            tblSearchView.hidden = false
+        }
+     }
+     else
+     {
+        arrFoodSearch.removeAllObjects()
+        tblSearchView.reloadData()
+        tblSearchView.hidden = true
+     }
         
     }
     
@@ -73,10 +111,12 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
     {
         activityIndicator.hidden = false
         activityIndicator.startAnimating()
+        tblSearchView.hidden = true
         
         searchBar.resignFirstResponder()
         var urlCon = urlConnection()
-        urlCon.serviceCall(searchBar.text, compClosure: { arrResult, error in
+        //service call to get data from Holmusk
+        urlCon.serviceCall(searchBar.text, isKiminoCall:false, compClosure: { arrResult, dictResult, error in
             
             self.activityIndicator.hidden = true
             self.activityIndicator.stopAnimating()
@@ -101,6 +141,7 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar)
     {
+        tblSearchView.hidden = true
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
     }
@@ -113,7 +154,7 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
     {
-        if arrValue.count == 0 
+        if arrValue.count == 0 && tableView == tblView
         {
             return tblView.frame.size.height
         }
@@ -125,7 +166,7 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
-        if arrValue.count == 0
+        if arrValue.count == 0 && tableView == tblView
         {
             let viewCon = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("resultView") as! UIViewController
             let objResultView : resultView =  viewCon.view as! resultView
@@ -155,30 +196,83 @@ class searchViewController: UIViewController,UISearchBarDelegate,UITableViewData
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return arrValue.count
+        if tableView == tblView
+        {
+          return arrValue.count
+        }
+        else
+        {
+          return arrFoodSearch.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-       var cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
-       cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-       cell.textLabel?.text = arrValue[indexPath.row].valueForKey("name") as? String
-       return cell
+        if tableView == tblView
+        {
+            var cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+            cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            cell.textLabel?.text = arrValue[indexPath.row].valueForKey("name") as? String
+            return cell
+        }
+        else
+        {
+            var cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+            cell.textLabel?.text = arrFoodSearch[indexPath.row] as? String
+            cell.textLabel?.textColor = UIColor.whiteColor()
+            cell.contentView.backgroundColor = UIColor(red: 27.0/255.0, green: 64.0/255.0, blue: 121.0/255.0, alpha: 1)
+            return cell
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let portionsCon : portionsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("portionsViewController") as! portionsViewController
-        portionsCon.dictValue = arrValue[indexPath.row] as! NSDictionary
-        self.navigationController?.pushViewController(portionsCon, animated: true)
+        if tableView == tblView
+        {
+         let portionsCon : portionsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("portionsViewController") as! portionsViewController
+         portionsCon.dictValue = arrValue[indexPath.row] as! NSDictionary
+         self.navigationController?.pushViewController(portionsCon, animated: true)
+        }
+        else
+        {
+            searchBar.text = arrFoodSearch.objectAtIndex(indexPath.row) as! String
+            searchBarSearchButtonClicked(searchBar)
+        }
     }
     
+    // MARK: - Local Functions
     
     @IBAction func btnTotal(sender: AnyObject) {
         let totalCon : totalViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("totalViewController") as! totalViewController
         totalCon.IsParentNutrients = false
         self.navigationController?.pushViewController(totalCon, animated: true)
     }
+    
+    
+    func getFoodDataFromKiminoLabs()
+    {
+        var urlCon = urlConnection()
+        // service call to get data from kiminolabs
+        urlCon.serviceCall(nil, isKiminoCall:true, compClosure: { arrResult, dictResult, error in
+            self.activityIndicator.hidden = true
+            self.activityIndicator.stopAnimating()
+            self.searchBar.userInteractionEnabled = true
+            
+            if error == nil
+            {
+                let test : NSArray = dictResult.valueForKeyPath("results.collection") as! NSArray
+                for dict in test
+                {
+                    self.arrFoodData.addObject(dict.valueForKeyPath("foodData.text")!)
+                }
+            }
+            else
+            {
+                
+            }
+        })
+    }
+
     /*
     // MARK: - Navigation
 

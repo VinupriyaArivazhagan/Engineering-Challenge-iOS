@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         btnGo.layer.cornerRadius = btnGo.frame.size.width/2
         btnGo.layer.masksToBounds = true
         
-        doSomeInitialAnimation()
+        doSomeInitialAnimation() // do some initial animation
     }
 
     
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: {
             self.btnGo.transform = CGAffineTransformMakeScale(1, 1)
             }, completion: { finished in
-                self.doSomeFinalAnimation()
+                self.doSomeFinalAnimation() // do some final animation
         })
     }
     

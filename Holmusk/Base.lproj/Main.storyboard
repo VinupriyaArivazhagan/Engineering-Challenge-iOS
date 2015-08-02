@@ -178,6 +178,17 @@
                                     <action selector="btnTotal:" destination="Pud-yQ-yO3" eventType="touchUpInside" id="Vt3-ac-ntU"/>
                                 </connections>
                             </button>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Hhh-Cf-rOT">
+                                <rect key="frame" x="0.0" y="64" width="600" height="300"/>
+                                <color key="backgroundColor" red="0.1058823529" green="0.25098039220000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="BRH-vA-KDt"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="Pud-yQ-yO3" id="5cc-2Z-QMo"/>
+                                    <outlet property="delegate" destination="Pud-yQ-yO3" id="VHd-Wu-qoa"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -185,9 +196,12 @@
                             <constraint firstAttribute="trailing" secondItem="TvS-Lq-jO9" secondAttribute="trailing" id="L0X-WU-W9k"/>
                             <constraint firstItem="WDR-4f-7uv" firstAttribute="top" secondItem="TvS-Lq-jO9" secondAttribute="bottom" id="RCJ-hU-3iZ"/>
                             <constraint firstItem="WDR-4f-7uv" firstAttribute="leading" secondItem="l25-0v-Po3" secondAttribute="leading" id="Rpu-uX-YWV"/>
+                            <constraint firstAttribute="trailing" secondItem="Hhh-Cf-rOT" secondAttribute="trailing" id="TpJ-Mh-JY2"/>
                             <constraint firstItem="TvS-Lq-jO9" firstAttribute="top" secondItem="l25-0v-Po3" secondAttribute="top" id="Tzg-1a-0mz"/>
                             <constraint firstAttribute="bottom" secondItem="WDR-4f-7uv" secondAttribute="bottom" constant="50" id="VJD-y8-YPV"/>
+                            <constraint firstItem="Hhh-Cf-rOT" firstAttribute="leading" secondItem="l25-0v-Po3" secondAttribute="leading" id="aAa-ym-WIJ"/>
                             <constraint firstAttribute="centerY" secondItem="9Pk-Rr-asr" secondAttribute="centerY" id="eAM-Rv-mhS"/>
+                            <constraint firstItem="Hhh-Cf-rOT" firstAttribute="top" secondItem="TvS-Lq-jO9" secondAttribute="bottom" id="gVt-Ls-DMb"/>
                             <constraint firstAttribute="trailing" secondItem="GE1-ta-6ea" secondAttribute="trailing" id="geq-aQ-mot"/>
                             <constraint firstItem="NkL-zD-VdC" firstAttribute="top" secondItem="GE1-ta-6ea" secondAttribute="bottom" id="hBn-sF-sni"/>
                             <constraint firstAttribute="centerX" secondItem="9Pk-Rr-asr" secondAttribute="centerX" id="mrF-2V-kas"/>
@@ -201,6 +215,7 @@
                         <outlet property="btnTotalIntake" destination="GE1-ta-6ea" id="FQ3-lU-uSh"/>
                         <outlet property="searchBar" destination="ZWl-Xd-igg" id="rIJ-u5-YEl"/>
                         <outlet property="tblBottomConstraint" destination="VJD-y8-YPV" id="d8T-Wa-io8"/>
+                        <outlet property="tblSearchView" destination="Hhh-Cf-rOT" id="yVv-m5-diT"/>
                         <outlet property="tblView" destination="WDR-4f-7uv" id="eTo-ly-3sn"/>
                     </connections>
                 </viewController>
@@ -226,13 +241,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WoL-Lq-rOT">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="270"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1m-EV-tYh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1m-EV-tYh">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                                 <color key="backgroundColor" red="0.1058823529" green="0.25098039220000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="350" id="Iuf-HM-PBy"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="25"/>
+                                                <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -346,13 +361,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q3X-fD-PUF">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="270"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIl-AZ-L9z">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIl-AZ-L9z">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                                 <color key="backgroundColor" red="0.1058823529" green="0.25098039220000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="350" id="bFI-Ab-KyR"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="25"/>
+                                                <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -386,13 +401,13 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xWI-BR-6j4">
-                                <rect key="frame" x="544" y="28" width="40" height="40"/>
+                                <rect key="frame" x="554" y="28" width="30" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="7BE-5o-qnp"/>
-                                    <constraint firstAttribute="width" constant="40" id="Ok1-4Y-YF4"/>
+                                    <constraint firstAttribute="height" constant="30" id="7BE-5o-qnp"/>
+                                    <constraint firstAttribute="width" constant="30" id="Ok1-4Y-YF4"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="45"/>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="35"/>
                                 <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="+">
                                     <color key="titleColor" red="0.1058823529" green="0.25098039220000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -403,18 +418,18 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add to your intake" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPg-53-2QJ">
-                                <rect key="frame" x="313" y="29" width="200" height="50"/>
+                                <rect key="frame" x="323" y="29" width="200" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Iol-hj-mLh"/>
                                     <constraint firstAttribute="width" constant="200" id="Ulo-PM-iUm"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="15"/>
                                 <color key="textColor" red="0.1058823529" green="0.25098039220000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Jx0-ey-Grb">
-                                <rect key="frame" x="502" y="76" width="63" height="24"/>
+                                <rect key="frame" x="502" y="66" width="63" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="63" id="ZzF-YB-lPG"/>
                                     <constraint firstAttribute="height" constant="24" id="wJr-Ra-FlV"/>

@@ -8,18 +8,29 @@
 
 import UIKit
 
-typealias completionClosure = (arrResult: NSArray?,error: NSError?) -> ()
-private let foodSearchUrl = "http://test.holmusk.com/food/search?q="
-
+typealias completionClosure = (arrResult: NSArray?, dictResult: NSDictionary!, error: NSError?) -> ()
+private let foodSearchUrl = "http://test.holmusk.com/food/search?q=" //Holmusk food search url
+private let kiminoAPIUrl = "https://www.kimonolabs.com/api/egqqke8q?apikey=UZ1jvPU2FiczkJ5xIea95O3hQMATrdv0" //kiminoApI Url
 
 class urlConnection: NSObject {
     var receivedData = NSMutableData()
     var objCompletionClosure : completionClosure!
-
-    func serviceCall(foodName: String!, compClosure:completionClosure!)
+    var ISkiminoCall : Bool!
+    
+    func serviceCall(foodName: String!, isKiminoCall:Bool!, compClosure:completionClosure!)
     {
         objCompletionClosure = compClosure
-        let url = foodSearchUrl + foodName
+        ISkiminoCall = isKiminoCall
+        
+        var url : String!
+        if isKiminoCall == true
+        {
+            url = kiminoAPIUrl
+        }
+        else
+        {
+            url = foodSearchUrl + foodName.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        }
         var request : NSMutableURLRequest = NSMutableURLRequest(URL: NSURL(string:url)!)
         request.timeoutInterval = 20.0
         
@@ -27,7 +38,7 @@ class urlConnection: NSObject {
     }
     
     func connection(connection: NSURLConnection, didFailWithError error: NSError) {
-        objCompletionClosure(arrResult: nil, error: error)
+        objCompletionClosure(arrResult: nil,dictResult: nil, error: error)
     }
     
     func connection(didReceiveResponse: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
@@ -46,23 +57,38 @@ class urlConnection: NSObject {
         {
             if (jsonObject != nil)
             {
-              if let arrResult = jsonObject as? NSArray
-              {
-                objCompletionClosure(arrResult: arrResult, error: nil)
-              }
-              else
-              {
-                objCompletionClosure(arrResult: nil, error:NSError(domain: "http", code: -1, userInfo: nil))
-              }
+                if ISkiminoCall == true
+                {
+                  if let dictResult = jsonObject as? NSDictionary
+                  {
+                    objCompletionClosure(arrResult: nil, dictResult:dictResult ,error: nil)
+                  }
+                  else
+                  {
+                    objCompletionClosure(arrResult: nil,dictResult: nil, error:NSError(domain: "http", code: -1, userInfo: nil))
+                  }
+                }
+                else
+                {
+                    if let arrResult = jsonObject as? NSArray
+                    {
+                        objCompletionClosure(arrResult: arrResult, dictResult: nil, error: nil)
+                    }
+                    else
+                    {
+                        objCompletionClosure(arrResult: nil, dictResult: nil, error:NSError(domain: "http", code: -1, userInfo: nil))
+                    }
+                }
             }
             else
             {
-              objCompletionClosure(arrResult: nil, error:error)
+                objCompletionClosure(arrResult: nil, dictResult: nil, error:error)
             }
+
         }
         else
         {
-            objCompletionClosure(arrResult: nil, error:NSError(domain: "http", code: -1, userInfo: nil))
+            objCompletionClosure(arrResult: nil, dictResult: nil, error:NSError(domain: "http", code: -1, userInfo: nil))
         }
     }
 }

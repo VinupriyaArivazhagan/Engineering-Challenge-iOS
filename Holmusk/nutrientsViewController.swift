@@ -157,7 +157,7 @@ class nutrientsViewController: UIViewController {
             }
             else
             {
-                cell.textLabel?.text = key + " : null"
+                cell.textLabel?.text = key + " : 0"
             }
         }
         else if indexPath.section == 2
@@ -172,7 +172,7 @@ class nutrientsViewController: UIViewController {
             }
             else
             {
-                cell.textLabel?.text = key + " : null"
+                cell.textLabel?.text = key + " : 0"
             }
         }
         else if indexPath.section == 3
@@ -183,20 +183,27 @@ class nutrientsViewController: UIViewController {
             }
             else
             {
-                cell.textLabel?.text = "null"
+                cell.textLabel?.text = "0"
             }
             
         }
         return cell
     }
     
+    // MARK: - Scroll View Delegate
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
+        // for prallax effect
         var yOffset = ((tblView!.contentOffset.y ) / 100) * 15.0
         viewScroll.contentOffset = CGPointMake(0.0, yOffset)
     }
     
+    // MARK: - Local Declaration
+    
     @IBAction func btnAdd(sender: AnyObject) {
+        
+        // To store data into Realm data storage
+        
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
         let objNutrients = nutrients()
@@ -232,6 +239,7 @@ class nutrientsViewController: UIViewController {
         }
         realm.addObject(objNutrients)
         realm.commitWriteTransaction()
+        
         let totalCon : totalViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("totalViewController") as! totalViewController
         totalCon.IsParentNutrients = true
         self.navigationController?.pushViewController(totalCon, animated: true)
